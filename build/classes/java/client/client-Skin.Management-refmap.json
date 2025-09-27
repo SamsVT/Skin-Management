@@ -1,0 +1,34 @@
+{
+  "mappings": {
+    "Skin/Management/skin_management/client/mixin/AbstractClientPlayerEntityMixin": {
+      "getSkinTexture()Lnet/minecraft/util/Identifier;": "Lnet/minecraft/class_742;method_3117()Lnet/minecraft/class_2960;"
+    },
+    "Skin/Management/skin_management/client/mixin/AbstractClientPlayerEntityModelMixin": {
+      "getModel()Ljava/lang/String;": "Lnet/minecraft/class_742;method_3121()Ljava/lang/String;"
+    },
+    "Skin/Management/skin_management/client/mixin/PlayerListEntryMixin": {
+      "getModel()Ljava/lang/String;": "Lnet/minecraft/class_640;method_2977()Ljava/lang/String;",
+      "getSkinTexture()Lnet/minecraft/util/Identifier;": "Lnet/minecraft/class_640;method_2968()Lnet/minecraft/class_2960;"
+    },
+    "Skin/Management/skin_management/client/mixin/PlayerRendererMixin": {
+      "getTexture(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)Lnet/minecraft/util/Identifier;": "Lnet/minecraft/class_1007;method_4216(Lnet/minecraft/class_742;)Lnet/minecraft/class_2960;"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "Skin/Management/skin_management/client/mixin/AbstractClientPlayerEntityMixin": {
+        "getSkinTexture()Lnet/minecraft/util/Identifier;": "Lnet/minecraft/class_742;method_3117()Lnet/minecraft/class_2960;"
+      },
+      "Skin/Management/skin_management/client/mixin/AbstractClientPlayerEntityModelMixin": {
+        "getModel()Ljava/lang/String;": "Lnet/minecraft/class_742;method_3121()Ljava/lang/String;"
+      },
+      "Skin/Management/skin_management/client/mixin/PlayerListEntryMixin": {
+        "getModel()Ljava/lang/String;": "Lnet/minecraft/class_640;method_2977()Ljava/lang/String;",
+        "getSkinTexture()Lnet/minecraft/util/Identifier;": "Lnet/minecraft/class_640;method_2968()Lnet/minecraft/class_2960;"
+      },
+      "Skin/Management/skin_management/client/mixin/PlayerRendererMixin": {
+        "getTexture(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)Lnet/minecraft/util/Identifier;": "Lnet/minecraft/class_1007;method_4216(Lnet/minecraft/class_742;)Lnet/minecraft/class_2960;"
+      }
+    }
+  }
+}

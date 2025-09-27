@@ -1,0 +1,11 @@
+{
+  "ui.upload": {
+    "sounds": [ { "name": "skin_management:ui/up_load", "stream": false } ]
+  },
+  "ui.error": {
+    "sounds": [ { "name": "skin_management:ui/error", "stream": false } ]
+  },
+  "ui.complete": {
+    "sounds": [ { "name": "skin_management:ui/complete", "stream": false } ]
+  }
+}

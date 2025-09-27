@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "skin_management",
+  "version": "1.0.0",
+  "name": "Skin Management",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "Skin.Management.skin_management.client.SkinManagementClient"
+    ]
+  },
+  "mixins": [
+    "skin_management.client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "*"
+  }
+}
