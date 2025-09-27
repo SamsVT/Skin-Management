@@ -30,8 +30,8 @@ public class ServerApiClient {
     });
 
     private static volatile boolean PROD = false;
-    private static volatile String BASE_DEV = "http://localhost:2555";
-    private static volatile String BASE_PROD = "http://localhost:2555";
+    private static volatile String BASE_DEV = "http://localhost:port";
+    private static volatile String BASE_PROD = "http://localhost:port";
     private static volatile String BASE_OVERRIDE = null;
 
     private static volatile String PATH_UPLOAD = "/upload";
