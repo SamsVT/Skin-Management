@@ -1,0 +1,77 @@
+
+# 🐾 CatSkinC – Easy Minecraft Skin Manager with HD Support
+
+**CatSkinC** is a lightweight, client-side Minecraft mod that makes uploading and switching skins quick and seamless.  
+Unlike the vanilla system, CatSkinC supports **HD skins up to 8192×8192**, instant previews, and changing your look without restarting the game.  
+
+It is designed for players, artists, and communities who want more customization and flexibility than Mojang’s default skin service.  
+
+---
+
+## ✨ Features
+
+- Upload PNG skins from **64×64 up to 8192×8192**  
+- Drag & drop support or manual file picker  
+- Switch between **Classic ↔ Slim model** (no more “big arm” issue for Slim skins)  
+- Instant apply and preview (no game restart required)  
+- Quick access with configurable hotkey (**default: K**)  
+- 🌍 Localization support (English + Thai, community translations via Discord)  
+
+---
+
+## 🎮 Usage
+
+1. Press **K** in-game  
+2. Select a PNG skin file (must be 1:1 ratio)  
+3. Toggle Slim model if your skin was designed for it  
+4. Upload and apply instantly!  
+
+---
+
+## 🔧 Compatibility
+
+- **Minecraft:** Java Edition (tested on 1.20.x)  
+- **Loaders:** Fabric & Forge  
+- **Environment:** Client-side only  
+
+---
+
+## 📥 Installation
+
+### Fabric
+1. Install [Fabric API](https://modrinth.com/mod/fabric-api)  
+2. Put the `CatSkinC-x.x.x.jar` into your `mods` folder  
+
+### Forge
+1. Install [Forgified Fabric API](https://modrinth.com/mod/forgified-fabric-api)  
+2. Install [Sinytra Connector](https://modrinth.com/mod/sinytra-connector)  
+3. Put the `CatSkinC-x.x.x.jar` into your `mods` folder  
+
+---
+
+## ℹ️ Notes
+
+- Skin data is stored and managed via **cloud servers** (uploaded and retrieved online)  
+- **No personal or sensitive information is collected — only skin files**  
+- Mod is **client-side only**, no server installation needed  
+- Disabling the mod will not remove your currently active skin  
+- One player = one skin file  
+
+---
+
+## 🔒 Disclaimer
+
+CatSkinC is an **independent skin system**, completely separate from Mojang’s official skin service.  
+It does not replace or modify your Mojang account skin. Instead, it works as an **alternative client-side option** for those who want HD skins, instant switching, or more flexibility.  
+
+Your official Mojang skin will remain untouched — CatSkinC simply gives you another way to express yourself.  
+
+---
+
+## 📢 Community & Contribution
+
+Want to contribute, translate, or report a bug? Join us here:  
+
+- 🌐 **Discord:** [Join our community](https://discord.com/invite/PewhYEehFQ)  
+- 📝 **Issues:** [Submit a bug or feature request](https://github.com/SamsVT/Skin-Management/issues)  
+- 💻 **Source Code:** [GitHub Repository](https://github.com/SamsVT/Skin-Management)  
