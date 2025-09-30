@@ -75,3 +75,17 @@ Want to contribute, translate, or report a bug? Join us here:
 - 🌐 **Discord:** [Join our community](https://discord.com/invite/PewhYEehFQ)  
 - 📝 **Issues:** [Submit a bug or feature request](https://github.com/SamsVT/Skin-Management/issues)  
 - 💻 **Source Code:** [GitHub Repository](https://github.com/SamsVT/Skin-Management)  
+
+
+
+## 🌍 Localization & Translations  
+
+CatSkinC currently supports **2 languages**:  
+- English  
+- Thai  
+
+Community-driven translations are welcome! You can help add and improve translations through our **Discord server**.  
+
+We’ve made it simple to expand language support — you can create your own translation files and share them with the project.  
+
+👉 Join us on [Discord](https://discord.com/invite/PewhYEehFQ) to contribute translations and make CatSkinC available in more languages! 
