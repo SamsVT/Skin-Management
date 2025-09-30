@@ -1,7 +1,7 @@
 
 # 🐾 CatSkinC – Easy Minecraft Skin Manager with HD Support
 
-[![Modrinth](https://img.shields.io/badge/Modrinth-CatSkinC-17BEBB?logo=modrinth&logoColor=white)](https://modrinth.com/mod/catskinc) [![GitHub release](https://img.shields.io/github/v/release/SamsVT/Skin-Management?style=flat&logo=github&color=blue)](https://github.com/SamsVT/Skin-Management/releases)
+[![Modrinth](https://img.shields.io/badge/Modrinth-CatSkinC-17BEBB?logo=modrinth&logoColor=white)](https://modrinth.com/mod/catskinc) [![GitHub release](https://img.shields.io/github/v/release/SamsVT/Skin-Management?style=flat&logo=github&color=blue)](https://github.com/SamsVT/Skin-Management/releases) [![Discord](https://img.shields.io/discord/1224792605370372126?color=7289da&label=Discord&logo=discord&logoColor=white)](https://discord.gg/PewhYEehFQ)
 
 **CatSkinC** is a lightweight, client-side Minecraft mod that makes uploading and switching skins quick and seamless.  
 Unlike the vanilla system, CatSkinC supports **HD skins up to 8192×8192**, instant previews, and changing your look without restarting the game.  
