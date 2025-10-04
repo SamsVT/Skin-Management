@@ -1,0 +1,36 @@
+{
+  "key.categories.skin_management": "Cat Skin C",
+  "key.skin_management.open_ui": "เปิดหน้าจออัปโหลดสกิน",
+
+  "title.skin_management": "Skin Manager",
+  "title.skin_cloud": "Skin Cloud",
+
+  "screen.skin_management.title": "อัปโหลดสกิน",
+  "screen.skin_management.header": "โยนไฟล์ / เลือกไฟล์ แล้วกด Upload ขนาดอัตราส่วน 1:1",
+  "screen.skin_management.button.select_png": "เลือกไฟล์ PNG",
+  "screen.skin_management.button.upload": "อัปโหลด!",
+  "screen.skin_management.slim_model": "โมเดลแบบแขนเล็ก (Slim)",
+  "screen.skin_management.drop_hint": "[ลากไฟล์ PNG มาวางที่นี่]",
+  "screen.skin_management.mode.slim": "Slim (Alex)",
+  "screen.skin_management.mode.classic": "Classic (Steve)",
+  "screen.skin_management.mode.label": "โมเดล: %s",
+
+  "toast.file.selected": "เลือกไฟล์: %s",
+  "toast.folder.opened": "เปิดโฟลเดอร์ skin_uploads แล้ว — ลากไฟล์ PNG มาวางบนหน้านี้ได้เลย",
+
+  "toast.upload.title": "กำลังอัปโหลด...",
+  "toast.upload.preparing": "เตรียมไฟล์",
+  "toast.upload.start": "เริ่มอัปโหลด (%s)",
+  "toast.upload.success": "สำเร็จ",
+  "toast.upload.failed": "ล้มเหลว",
+
+  "toast.cloud.checking": "กำลังตรวจสอบการเชื่อมต่อ...",
+  "toast.cloud.connected": "เชื่อมต่อสำเร็จ",
+  "toast.cloud.failed": "เชื่อมต่อไม่สำเร็จ",
+
+  "toast.error.not_png": "ไฟล์ต้องเป็น .png เท่านั้น",
+  "toast.error.drag_not_png": "ไฟล์ที่ลากมาไม่ใช่ .png",
+  "toast.error.read_failed": "อ่านไฟล์ไม่สำเร็จ",
+  "toast.error.invalid_dimensions": "ต้องเป็น PNG สี่เหลี่ยมจัตุรัส (ขนาดกำลังสอง) ช่วง 64–8192",
+  "toast.error.create_folder_failed": "สร้างโฟลเดอร์ 'skin_uploads' ไม่ได้"
+}

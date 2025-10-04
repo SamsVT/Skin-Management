@@ -1,0 +1,10 @@
+{
+  "package": "Skin.Management.skin_management.client.mixin",
+  "mixins": [
+    "AbstractClientPlayerEntityMixin",
+    "PlayerRendererMixin",
+    "AbstractClientPlayerEntityModelMixin"
+  ],
+  "client": [],
+  "injectors": { "defaultRequire": 1 }
+}
