@@ -15,10 +15,15 @@ public class SkinManagementClient implements ClientModInitializer {
 
     private static KeyBinding openUiKey;
 
+    // fallback poll
+    private static int tickCounter = 0;
+    private static final int ENSURE_INTERVAL_TICKS = 20; // ~1s
+    private static final int ENSURE_LIMIT_PER_PASS = 16; // จำกัดจำนวนต่อรอบ
+
     @Override
     public void onInitializeClient() {
         ModSounds.register();
-        SkinManagerClient.setRefreshIntervalMs(1_000L);
+        SkinManagerClient.setRefreshIntervalMs(1_000L); // โพลสำรอง 1s
 
         openUiKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
@@ -33,11 +38,34 @@ public class SkinManagementClient implements ClientModInitializer {
             while (openUiKey.wasPressed()) {
                 openNow();
             }
+
+            // fallback: โพลผู้เล่นในโลกทุก ~1s เผื่อ SSE หลุด
+            if (client.world != null) {
+                tickCounter++;
+                if ((tickCounter % ENSURE_INTERVAL_TICKS) == 0) {
+                    int count = 0;
+                    for (var p : client.world.getPlayers()) {
+                        if (p == null) continue;
+                        SkinManagerClient.ensureFetch(p.getUuid());
+                        if (++count >= ENSURE_LIMIT_PER_PASS) break;
+                    }
+                }
+            }
         });
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             client.execute(() -> {
                 try {
+                    // เริ่มฟัง SSE: เมื่อมีคน upload/select -> บังคับ fetch ทันที
+                    ServerApiClient.startSse(evt -> {
+                        if (evt != null && evt.uuid != null) {
+                            client.execute(() -> {
+                                if (evt.slim != null) SkinManagerClient.setSlim(evt.uuid, evt.slim);
+                                SkinManagerClient.forceFetch(evt.uuid); // บังคับโหลดทันที
+                            });
+                        }
+                    });
+
                     if (client.player != null) {
                         SkinManagerClient.fetchAndApplyFor(client.player.getUuid());
                     }
@@ -53,6 +81,7 @@ public class SkinManagementClient implements ClientModInitializer {
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             client.execute(() -> {
                 try { SkinManagerClient.clearAll(); } catch (Exception ignored) {}
+                try { ServerApiClient.stopSse(); } catch (Exception ignored) {}
             });
         });
 

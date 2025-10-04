@@ -9,9 +9,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.concurrent.*;
+import java.util.function.Consumer;
 
 public class ServerApiClient {
-
 
     public interface ProgressListener {
         default void onStart(long totalBytes) {}
@@ -29,20 +29,31 @@ public class ServerApiClient {
         return t;
     });
 
-    private static volatile boolean PROD = false;
-    private static volatile String BASE_DEV = "http://localhost:port";
-    private static volatile String BASE_PROD = "http://localhost:port";
-    private static volatile String BASE_OVERRIDE = null;
 
-    private static volatile String PATH_UPLOAD = "/upload";
-    private static volatile String PATH_SELECT = "/select";
+    private static final String FIXED_BASE = "https://storage-api.catskin.space";
+
+
+    @SuppressWarnings("unused")
+    private static volatile boolean PROD = true;
+    @SuppressWarnings("unused")
+    private static volatile String BASE_DEV = FIXED_BASE;
+    @SuppressWarnings("unused")
+    private static volatile String BASE_PROD = FIXED_BASE;
+    @SuppressWarnings("unused")
+    private static volatile String BASE_OVERRIDE = FIXED_BASE;
+
+    private static volatile String PATH_UPLOAD   = "/upload";
+    private static volatile String PATH_SELECT   = "/select";
     private static volatile String PATH_SELECTED = "/selected";
-    private static volatile String PATH_PUBLIC = "/public/";
+    private static volatile String PATH_PUBLIC   = "/public/";
+    private static volatile String PATH_EVENTS   = "/events";
 
     private static volatile String AUTH_TOKEN = null;
 
-    public static void setProd(boolean prod) { PROD = prod; }
-    public static void setBase(String baseUrl) { BASE_OVERRIDE = baseUrl; }
+    // เมธอดเหล่านี้คงไว้เพื่อความเข้ากันได้ แต่ไม่มีผล (ฐานถูกล็อกแล้ว)
+    public static void setProd(boolean prod) { /* no-op: base locked */ }
+    public static void setBase(String baseUrl) { /* no-op: base locked */ }
+
     public static void setAuthToken(String bearerToken) { AUTH_TOKEN = bearerToken; }
     public static void setPaths(String upload, String select, String selected, String publicPath) {
         if (upload != null) PATH_UPLOAD = upload;
@@ -53,10 +64,8 @@ public class ServerApiClient {
 
     private static String userAgent() { return "skin_management/ServerApiClient"; }
 
-    private static String base() {
-        if (BASE_OVERRIDE != null && !BASE_OVERRIDE.isBlank()) return trimSlash(BASE_OVERRIDE);
-        return PROD ? trimSlash(BASE_PROD) : trimSlash(BASE_DEV);
-    }
+    // ใช้ FIXED_BASE เสมอ
+    private static String base() { return trimSlash(FIXED_BASE); }
 
     private static String trimSlash(String s) {
         if (s == null) return "";
@@ -312,5 +321,103 @@ public class ServerApiClient {
         }
         @Override public void flush() throws IOException { delegate.flush(); }
         @Override public void close() throws IOException { delegate.close(); }
+    }
+
+    // ====== SSE (Server-Sent Events) for live updates ======
+    public static final class UpdateEvent {
+        public final UUID uuid;
+        public final String id;
+        public final String url;
+        public final Boolean slim;
+        public UpdateEvent(UUID uuid, String id, String url, Boolean slim) {
+            this.uuid = uuid; this.id = id; this.url = url; this.slim = slim;
+        }
+    }
+
+    private static volatile Thread SSE_THREAD = null;
+    private static volatile boolean SSE_STOP = false;
+
+    public static void startSse(Consumer<UpdateEvent> onUpdate) {
+        if (SSE_THREAD != null) return;
+        SSE_STOP = false;
+        SSE_THREAD = new Thread(() -> {
+            while (!SSE_STOP) {
+                HttpURLConnection c = null;
+                try {
+                    c = openSse(PATH_EVENTS);
+                    int code = c.getResponseCode();
+                    if (code / 100 != 2) {
+                        try { Thread.sleep(1500); } catch (InterruptedException ignored) {}
+                        continue;
+                    }
+                    try (BufferedReader br = new BufferedReader(
+                            new InputStreamReader(c.getInputStream(), StandardCharsets.UTF_8))) {
+                        String line;
+                        while (!SSE_STOP && (line = br.readLine()) != null) {
+                            if (line.startsWith("data:")) {
+                                String json = line.substring(5).trim();
+                                UpdateEvent evt = parseUpdateEvent(json);
+                                if (evt != null && evt.uuid != null && onUpdate != null) {
+                                    onUpdate.accept(evt);
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception ignored) {
+                    try { Thread.sleep(1500); } catch (InterruptedException ignored2) {}
+                } finally {
+                    if (c != null) c.disconnect();
+                }
+            }
+        }, "ServerApiClient-SSE");
+        SSE_THREAD.setDaemon(true);
+        SSE_THREAD.start();
+    }
+
+    public static void stopSse() {
+        SSE_STOP = true;
+        Thread t = SSE_THREAD;
+        SSE_THREAD = null;
+        if (t != null) t.interrupt();
+    }
+
+    private static UpdateEvent parseUpdateEvent(String json) {
+        try {
+            String uuidStr = jsonStr(json, "uuid");
+            String id = jsonStr(json, "id");
+            String url = jsonStr(json, "url");
+            Boolean slim = null;
+            if (json.contains("\"slim\"")) slim = jsonBool(json, "slim", false);
+
+            UUID uuid = null;
+            if (uuidStr != null && !uuidStr.isBlank()) {
+                uuid = parseUuidFlexible(uuidStr);
+            }
+            return new UpdateEvent(uuid, id, url, slim);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static UUID parseUuidFlexible(String s) {
+        String t = s.replace("-", "");
+        if (t.length() == 32) {
+            String dashed = t.substring(0,8)+"-"+t.substring(8,12)+"-"+t.substring(12,16)+"-"+t.substring(16,20)+"-"+t.substring(20);
+            try { return UUID.fromString(dashed); } catch (Exception ignored) {}
+        }
+        try { return UUID.fromString(s); } catch (Exception ignored) {}
+        return null;
+    }
+
+    private static HttpURLConnection openSse(String pathOrUrl) throws IOException {
+        String url = isHttp(pathOrUrl) ? pathOrUrl : join(base(), pathOrUrl);
+        HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
+        c.setInstanceFollowRedirects(true);
+        c.setConnectTimeout(TIMEOUT_MS);
+        c.setReadTimeout(0); // ไม่ timeout ระหว่างสตรีม
+        c.setRequestMethod("GET");
+        c.setRequestProperty("User-Agent", userAgent());
+        if (AUTH_TOKEN != null && !AUTH_TOKEN.isBlank()) c.setRequestProperty("Authorization", "Bearer " + AUTH_TOKEN);
+        return c;
     }
 }

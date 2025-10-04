@@ -2,7 +2,6 @@ package Skin.Management.skin_management.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 
@@ -21,6 +20,9 @@ public final class SkinManagerClient {
     private static final Map<UUID, Long> LAST_CHECK = new ConcurrentHashMap<>();
     private static final Map<UUID, String> SELECT_URL = new ConcurrentHashMap<>();
 
+    // fallback slim ที่ใช้ตั้งแต่ยังไม่มี skin โหลดมา
+    private static final Map<UUID, Boolean> PREFERRED_SLIM = new ConcurrentHashMap<>();
+
     private static volatile long REFRESH_INTERVAL_MS = 5_000L;
     public static void setRefreshIntervalMs(long ms) { REFRESH_INTERVAL_MS = Math.max(1_000L, ms); }
 
@@ -37,6 +39,7 @@ public final class SkinManagerClient {
     }
 
     public static Identifier getOrFetch(AbstractClientPlayerEntity player) {
+        if (player == null) return null;
         UUID u = player.getUuid();
         Identifier id = CACHE.get(u);
         if (id == null) {
@@ -60,15 +63,41 @@ public final class SkinManagerClient {
     }
 
     public static Boolean isSlimOrNull(UUID uuid) {
-        return uuid == null ? null : SLIM.get(uuid);
+        if (uuid == null) return null;
+        Boolean v = SLIM.get(uuid);
+        if (v != null) return v;
+        Boolean pref = PREFERRED_SLIM.get(uuid);
+        if (pref != null) return pref;
+        return null;
     }
 
+    public static boolean isSlim(UUID uuid, boolean defVal) {
+        Boolean v = SLIM.get(uuid);
+        if (v != null) return v;
+        Boolean pref = PREFERRED_SLIM.get(uuid);
+        if (pref != null) return pref;
+        return defVal;
+    }
+
+    public static void setSlim(UUID uuid, boolean slim) {
+        if (uuid != null) {
+            SLIM.put(uuid, slim);
+            PREFERRED_SLIM.put(uuid, slim);
+        }
+    }
 
     public static void ensureFetch(UUID uuid) {
         if (uuid == null) return;
         if (!CACHE.containsKey(uuid) || shouldPoll(uuid)) {
             fetchAndApplyFor(uuid);
         }
+    }
+
+    // ใหม่: บังคับ fetch ทันที (ไม่ติดคูลดาวน์/แคชเวลา)
+    public static void forceFetch(UUID uuid) {
+        if (uuid == null) return;
+        LAST_CHECK.remove(uuid);     // ล้างคูลดาวน์
+        fetchAndApplyFor(uuid);      // ยิงโหลดทันที
     }
 
     private static boolean shouldPoll(UUID uuid) {
@@ -79,15 +108,6 @@ public final class SkinManagerClient {
             return true;
         }
         return false;
-    }
-
-    public static boolean isSlim(UUID uuid, boolean defVal) {
-        Boolean v = SLIM.get(uuid);
-        return v != null ? v : defVal;
-    }
-
-    public static void setSlim(UUID uuid, boolean slim) {
-        if (uuid != null) SLIM.put(uuid, slim);
     }
 
     public static void refresh(UUID uuid) {
@@ -141,6 +161,7 @@ public final class SkinManagerClient {
             INFLIGHT.clear();
             LAST_CHECK.clear();
             SELECT_URL.clear();
+            PREFERRED_SLIM.clear();
         });
     }
 }

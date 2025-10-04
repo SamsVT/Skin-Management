@@ -16,9 +16,11 @@ public abstract class AbstractClientPlayerEntityModelMixin {
             cancellable = true
     )
     private void skin_management$overrideModel(CallbackInfoReturnable<String> cir) {
-        AbstractClientPlayerEntity self = (AbstractClientPlayerEntity)(Object)this;
-        boolean slim = SkinManagerClient.isSlim(self.getUuid(), false);
+        AbstractClientPlayerEntity self = (AbstractClientPlayerEntity) (Object) this;
 
-        cir.setReturnValue(slim ? "slim" : "default");
+        Boolean slim = SkinManagerClient.isSlimOrNull(self.getUuid());
+        if (slim != null) {
+            cir.setReturnValue(slim ? "slim" : "default");
+        }
     }
 }
