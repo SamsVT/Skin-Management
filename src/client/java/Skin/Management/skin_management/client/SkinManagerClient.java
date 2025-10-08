@@ -129,7 +129,7 @@ public final class SkinManagerClient {
 
             String prev = SELECT_URL.get(uuid);
             if (prev != null && prev.equals(sel.url())) {
-                return CompletableFuture.completedFuture(null); // ไม่โหลดซ้ำถ้า URL เดิม
+                return CompletableFuture.completedFuture(null);
             }
             SELECT_URL.put(uuid, sel.url());
             return ServerApiClient.downloadTextureAsync(sel.url());
