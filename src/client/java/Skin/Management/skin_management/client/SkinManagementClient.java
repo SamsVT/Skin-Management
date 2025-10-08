@@ -58,7 +58,7 @@ public class SkinManagementClient implements ClientModInitializer {
                         if (evt != null && evt.uuid != null) {
                             client.execute(() -> {
                                 if (evt.slim != null) SkinManagerClient.setSlim(evt.uuid, evt.slim);
-                                SkinManagerClient.forceFetch(evt.uuid); // บังคับโหลดทันที
+                                SkinManagerClient.forceFetch(evt.uuid);
                             });
                         }
                     });
