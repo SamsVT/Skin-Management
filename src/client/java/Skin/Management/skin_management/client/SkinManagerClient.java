@@ -94,8 +94,8 @@ public final class SkinManagerClient {
 
     public static void forceFetch(UUID uuid) {
         if (uuid == null) return;
-        LAST_CHECK.remove(uuid);     // ล้างคูลดาวน์
-        fetchAndApplyFor(uuid);      // ยิงโหลดทันที
+        LAST_CHECK.remove(uuid);  
+        fetchAndApplyFor(uuid);     
     }
 
     private static boolean shouldPoll(UUID uuid) {
@@ -112,7 +112,7 @@ public final class SkinManagerClient {
         TextureManager tm = MinecraftClient.getInstance().getTextureManager();
         Identifier id = CACHE.remove(uuid);
         if (id != null) tm.destroyTexture(id);
-        SELECT_URL.remove(uuid); // บังคับเช็คใหม่
+        SELECT_URL.remove(uuid); 
         fetchAndApplyFor(uuid);
     }
 
