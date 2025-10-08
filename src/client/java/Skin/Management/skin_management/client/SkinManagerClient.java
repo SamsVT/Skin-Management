@@ -142,8 +142,8 @@ public final class SkinManagerClient {
             mc.execute(() -> {
                 Identifier id = idFor(uuid);
                 TextureManager tm = mc.getTextureManager();
-                tm.destroyTexture(id);        // ล้างเก่าก่อนเสมอ
-                tm.registerTexture(id, tex);  // ใส่ใหม่ด้วย id เดิม
+                tm.destroyTexture(id);        
+                tm.registerTexture(id, tex);  
                 CACHE.put(uuid, id);
             });
         }, EXEC);
