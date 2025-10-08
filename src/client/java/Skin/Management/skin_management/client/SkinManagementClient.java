@@ -17,12 +17,12 @@ public class SkinManagementClient implements ClientModInitializer {
 
     private static int tickCounter = 0;
     private static final int ENSURE_INTERVAL_TICKS = 20; // ~1s
-    private static final int ENSURE_LIMIT_PER_PASS = 16; // จำกัดจำนวนต่อรอบ
+    private static final int ENSURE_LIMIT_PER_PASS = 16; 
 
     @Override
     public void onInitializeClient() {
         ModSounds.register();
-        SkinManagerClient.setRefreshIntervalMs(1_000L); // โพลสำรอง 1s
+        SkinManagerClient.setRefreshIntervalMs(1_000L);
 
         openUiKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
