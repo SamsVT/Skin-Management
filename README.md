@@ -12,7 +12,7 @@ It is designed for players, artists, and communities who want more customization
 
 ## ✨ Features
 
-- Upload PNG skins from **64×64 up to 8192×8192**  
+- Upload PNG skins from **64×64 up to 2048×2048**  
 - Drag & drop support or manual file picker  
 - Switch between **Classic ↔ Slim model** (no more “big arm” issue for Slim skins)  
 - Instant apply and preview (no game restart required)  
