@@ -31,6 +31,6 @@
   "toast.error.not_png": "File must be .png",
   "toast.error.drag_not_png": "Dragged file is not a .png",
   "toast.error.read_failed": "Failed to read file",
-  "toast.error.invalid_dimensions": "PNG must be square (power of two), in range 64–8192",
+  "toast.error.invalid_dimensions": "PNG must be square (power of two), in range 64–4096",
   "toast.error.create_folder_failed": "Could not create 'skin_uploads' folder"
 }
