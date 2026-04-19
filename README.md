@@ -1,5 +1,6 @@
+# The project has been moved to Team CatLab: https://github.com/catlab-design/CatSkinC
 
-# 🐾 CatSkinC – Easy Minecraft Skin Manager with HD Support
+## 🐾 CatSkinC – Easy Minecraft Skin Manager with HD Support
 
 [![Modrinth](https://img.shields.io/badge/Download_on-Modrinth-17BEBB?logo=modrinth&logoColor=white&style=flat-square)](https://modrinth.com/mod/catskinc) [![GitHub release](https://img.shields.io/github/v/release/SamsVT/Skin-Management?style=flat-square&logo=github&color=2f7dc5)](https://github.com/SamsVT/Skin-Management/releases) [![Discord](https://img.shields.io/badge/Join-Discord-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/PewhYEehFQ)
 
